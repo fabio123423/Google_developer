@@ -1,0 +1,116 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import url('https://fonts.googleapis.com/css2?family=VT323&family=Share+Tech+Mono&display=swap');
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+    --font-heading: 'VT323', monospace;
+    --font-sans: 'Share Tech Mono', monospace;
+    --font-mono: 'VT323', monospace;
+    --color-cyan-glitch: #00ffff;
+    --color-magenta-glitch: #ff00ff;
+    --color-bg-void: #050505;
+    --color-background: #050505;
+}
+
+:root {
+    --background: #050505;
+    --foreground: #00ffff;
+    --cyan: #00ffff;
+    --magenta: #ff00ff;
+    --radius: 0rem;
+}
+
+@layer base {
+  body {
+    @apply bg-background text-cyan-glitch font-sans overflow-hidden;
+    background-image: 
+        repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.15) 0px, rgba(0, 0, 0, 0.15) 1px, transparent 1px, transparent 2px);
+  }
+}
+
+/* Glitch Animations */
+@keyframes glitch-tear {
+  0% { clip-path: inset(80% 0 1% 0); transform: translate(-5px); }
+  10% { clip-path: inset(10% 0 58% 0); transform: translate(5px); }
+  20% { clip-path: inset(51% 0 13% 0); transform: translate(-5px); }
+  30% { clip-path: inset(23% 0 71% 0); transform: translate(5px); }
+  40% { clip-path: inset(34% 0 14% 0); transform: translate(-5px); }
+  50% { clip-path: inset(10% 0 51% 0); transform: translate(5px); }
+  60% { clip-path: inset(76% 0 12% 0); transform: translate(-5px); }
+  70% { clip-path: inset(10% 0 32% 0); transform: translate(5px); }
+  80% { clip-path: inset(43% 0 21% 0); transform: translate(-5px); }
+  90% { clip-path: inset(10% 0 10% 0); transform: translate(5px); }
+  100% { clip-path: inset(80% 0 1% 0); transform: translate(-5px); }
+}
+
+.glitch-text {
+  position: relative;
+  display: inline-block;
+}
+
+.glitch-text::before,
+.glitch-text::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--background);
+}
+
+.glitch-text::before {
+  left: 2px;
+  text-shadow: -2px 0 var(--magenta);
+  clip-path: inset(0 0 0 0);
+  animation: glitch-tear 2s infinite linear alternate-reverse;
+}
+
+.glitch-text::after {
+  left: -2px;
+  text-shadow: -2px 0 var(--cyan);
+  clip-path: inset(0 0 0 0);
+  animation: glitch-tear 3s infinite linear alternate-reverse;
+}
+
+.static-noise {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.05;
+  pointer-events: none;
+}
+
+.crt-line {
+  width: 100%;
+  height: 2px;
+  background: rgba(0, 255, 255, 0.1);
+  position: absolute;
+  top: 0;
+  left: 0;
+  animation: scanline 8s linear infinite;
+  z-index: 50;
+}
+
+@keyframes scanline {
+  0% { top: -10%; }
+  100% { top: 110%; }
+}
+
+.panel-glitch {
+  @apply border border-cyan-glitch/30 bg-black/90 relative overflow-hidden;
+  box-shadow: inset 0 0 20px rgba(0, 255, 255, 0.1);
+}
+
+.panel-glitch::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(transparent 50%, rgba(0, 0, 0, 0.2) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+  background-size: 100% 2px, 3px 100%;
+  pointer-events: none;
+}
